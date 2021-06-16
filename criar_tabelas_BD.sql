@@ -1,4 +1,6 @@
-												
+-- Criação do banco de dados, tabelas	e inserção de alguns dados nelas
+
+
 CREATE database IF NOT EXISTS `curso`;
 USE `curso` ;
 

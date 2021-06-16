@@ -1,3 +1,5 @@
+'''Programa de CRUD de um sistema de cursos online'''
+
 import mysql.connector
 import pandas as pd #biblioteca para tratamento de dados
 
