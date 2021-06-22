@@ -5,11 +5,11 @@ import pandas as pd #biblioteca para tratamento de dados
 
 def conectar(): #Função para conectar no BD
     conexao = mysql.connector.connect(user='root',              
-                                    password='MY@sql12345678',       
+                                    password='',       
                                     host='localhost',        
                                     database='curso')
     return conexao
-def chose_user(texto): #Função para escolha de interação: Aluno ou Professor
+def choose_user(texto): #Função para escolha de interação: Aluno ou Professor
     print ('\n')
     print (texto)
     print ('1- Aluno')
@@ -18,7 +18,7 @@ def chose_user(texto): #Função para escolha de interação: Aluno ou Professor
 
     return escolha_usuario
 def read(conexao, escolha_usuario): #Função para visualização de dados do BD
-    cursor = conexao.cursor()
+    cursor = conexao.cursor() #Abre o cursor
 
     #Verifica o tipo de usuario (1- Aluno | 2- Professor) e guarda o codigo SQL em uma variavel para visualização dos dados
     if escolha_usuario == 1:
@@ -68,10 +68,10 @@ def read(conexao, escolha_usuario): #Função para visualização de dados do BD
 
     cursor.close() #fecha o cursor
 def insert(conexao, escolha_usuario): #Função para inserir dados no BD
+    cursor = conexao.cursor() #abre o cursor
 
     #Armazena os cursos existentes na variavel "registros"
     sql1 = '''select id_curso ,nome_curso from tb_curso '''
-    cursor = conexao.cursor() #abre o cursor
     cursor.execute(sql1)
     registros = cursor.fetchall()
 
@@ -113,17 +113,17 @@ def insert(conexao, escolha_usuario): #Função para inserir dados no BD
             try: #Tenta executar o seguinte codigo, porem caso der erro (na criação do id) ele vai somar mais 1 ao Id
                 id_user = count #criação do id
                 dados = (id_user, nome, sobrenome, telefone, nascimento, email, genero)
-                cursor.execute(sql2_aluno, dados)
-                conexao.commit()
-                print (f'Aluno "{nome}" inserido com sucesso!')         
+                cursor.execute(sql2_aluno, dados)    
                 break
             except:
                 count += 1
         
-        #Insere o ID do aluno e o ID do curso na tabale associativa, ligando os dois
+        #Insere o ID do aluno e o ID do curso na tabela associativa, ligando os dois
         dados = (id_user, curso)
         cursor.execute(sql4_ass_aluno, dados)  
         conexao.commit()
+
+        print (f'Aluno "{nome}" inserido com sucesso!')  
        
     else:
 
@@ -162,14 +162,16 @@ def insert(conexao, escolha_usuario): #Função para inserir dados no BD
         #Insere o ID do professor e o ID do curso na tabale associativa, ligando os dois
         dados = (id_user, curso)
         cursor.execute(sql5_ass_professor, dados)
-        conexao.commit()
+           
+        conexao.commit() #Envia os executes para o banco de dados 
     
-    cursor.close() #fecha o cursor
+    cursor.close()#fecha o cursor
 def update(conexao, escolha_usuario): #Função para atualização dos dados no BD
+
+    cursor = conexao.cursor() #abre o cursor
 
     #Armazena os cursos existentes na variavel "registros_cursos"
     sql1 = '''select id_curso ,nome_curso from tb_curso '''
-    cursor = conexao.cursor() #abre o cursor
     cursor.execute(sql1)
     registros_cursos = cursor.fetchall()
 
@@ -598,16 +600,16 @@ if __name__ == '__main__':
 
 
         if opcao_menu == 1:
-            escolha_usuario = chose_user('Qual usuario deseja visualizar?')
+            escolha_usuario = choose_user('Qual usuario deseja visualizar?')
             read(conn, escolha_usuario)
         elif opcao_menu == 2:
-            escolha_usuario = chose_user('Qual tipo de usuario deseja adicionar?')
+            escolha_usuario = choose_user('Qual tipo de usuario deseja adicionar?')
             insert(conn, escolha_usuario)
         elif opcao_menu == 3:
-            escolha_usuario = chose_user('Qual tipo de usuario deseja atualizar?')
+            escolha_usuario = choose_user('Qual tipo de usuario deseja atualizar?')
             update(conn, escolha_usuario)
         elif opcao_menu == 4:
-            escolha_usuario = chose_user('Qual tipo de usuario deseja deletar?')
+            escolha_usuario = choose_user('Qual tipo de usuario deseja deletar?')
             delete(conn, escolha_usuario)
         elif opcao_menu == 5:
             conn.close() #Fecha a conexão ao sair do programa
