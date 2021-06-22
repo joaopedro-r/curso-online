@@ -32,8 +32,8 @@ CREATE TABLE IF NOT EXISTS `curso`.`tb_professor` (
   `nascimento` DATE NOT NULL,
   `salario` FLOAT NOT NULL,
   PRIMARY KEY (`id_prof`),
-  UNIQUE INDEX `telefone_prof_UNIQUE` (`telefone_prof` ASC) VISIBLE,
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
+  UNIQUE INDEX `telefone_prof_UNIQUE` (`telefone_prof` ASC),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 ENGINE = InnoDB;
 
 
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `curso`.`tb_curso` (
   `alunos_formados` INT(5) NOT NULL,
   `idt_categoria` INT(2) NOT NULL,
   PRIMARY KEY (`id_curso`),
-  INDEX `fk_td_materia_ta_categorias1_idx` (`idt_categoria` ASC) VISIBLE,
+  INDEX `fk_td_materia_ta_categorias1_idx` (`idt_categoria` ASC),
   CONSTRAINT `fk_td_materia_ta_categorias1`
     FOREIGN KEY (`idt_categoria`)
     REFERENCES `curso`.`td_categorias` (`id_categoria`)
@@ -73,8 +73,8 @@ CREATE TABLE IF NOT EXISTS `curso`.`ta_curso_aluno` (
   `td_aluno_id_aluno` INT NOT NULL,
   `tb_curso_id_curso` INT(2) ZEROFILL NOT NULL,
   PRIMARY KEY (`td_aluno_id_aluno`, `tb_curso_id_curso`),
-  INDEX `fk_td_aluno_has_tb_curso_tb_curso1_idx` (`tb_curso_id_curso` ASC) VISIBLE,
-  INDEX `fk_td_aluno_has_tb_curso_td_aluno1_idx` (`td_aluno_id_aluno` ASC) VISIBLE,
+  INDEX `fk_td_aluno_has_tb_curso_tb_curso1_idx` (`tb_curso_id_curso` ASC),
+  INDEX `fk_td_aluno_has_tb_curso_td_aluno1_idx` (`td_aluno_id_aluno` ASC),
   CONSTRAINT `fk_td_aluno_has_tb_curso_td_aluno1`
     FOREIGN KEY (`td_aluno_id_aluno`)
     REFERENCES `curso`.`tb_aluno` (`id_aluno`)
@@ -95,8 +95,8 @@ CREATE TABLE IF NOT EXISTS `curso`.`ta_professor_curso` (
   `tb_professor_id_prof` INT NOT NULL,
   `tb_curso_id_curso` INT(2) ZEROFILL NOT NULL,
   PRIMARY KEY (`tb_professor_id_prof`, `tb_curso_id_curso`),
-  INDEX `fk_tb_professor_has_tb_curso_tb_curso1_idx` (`tb_curso_id_curso` ASC) VISIBLE,
-  INDEX `fk_tb_professor_has_tb_curso_tb_professor1_idx` (`tb_professor_id_prof` ASC) VISIBLE,
+  INDEX `fk_tb_professor_has_tb_curso_tb_curso1_idx` (`tb_curso_id_curso` ASC),
+  INDEX `fk_tb_professor_has_tb_curso_tb_professor1_idx` (`tb_professor_id_prof` ASC),
   CONSTRAINT `fk_tb_professor_has_tb_curso_tb_professor1`
     FOREIGN KEY (`tb_professor_id_prof`)
     REFERENCES `curso`.`tb_professor` (`id_prof`)
